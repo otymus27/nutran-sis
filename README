@@ -1,0 +1,31 @@
+# 🚛 Sistema de Transporte
+
+Aplicação Full Stack para gerenciamento de transporte.
+
+## 📦 Tecnologias
+
+-   **Backend:** Spring Boot
+-   **Frontend:** React + Vite
+-   **Banco de Dados:** MySQL 8
+-   **Orquestração:** Docker Compose
+-   **Servidor Web:** NGINX
+
+---
+
+## 🚀 Como executar o projeto
+
+### ✅ Pré-requisitos
+
+-   [Docker](https://www.docker.com/)
+-   [Docker Compose](https://docs.docker.com/compose/)
+
+---
+
+### 🛠️ Passos
+
+1. Clone o repositório:
+
+```bash
+git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
+cd SEU_REPOSITORIO
+```

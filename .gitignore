@@ -1,0 +1,17 @@
+# Backend
+api-transporte/target/
+api-transporte/.mvn/
+api-transporte/mvnw
+api-transporte/mvnw.cmd
+
+# Frontend
+app-transporte/node_modules/
+app-transporte/dist/
+
+# Docker
+mysql-data/
+
+# Sistema
+.DS_Store
+*.log
+.env

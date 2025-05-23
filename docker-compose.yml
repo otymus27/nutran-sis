@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+    mysql:
+        image: mysql:8.0
+        container_name: mysql_transporte
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: db_transporte
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql-data:/var/lib/mysql
+        networks:
+            - otymus-net
+
+    backend:
+        build:
+            context: ./api-transporte
+            dockerfile: Dockerfile
+        container_name: api_transporte
+        environment:
+            SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_transporte?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+            SPRING_DATASOURCE_USERNAME: root
+            SPRING_DATASOURCE_PASSWORD: root
+            SPRING_JPA_HIBERNATE_DDL_AUTO: none
+        depends_on:
+            - mysql
+        ports:
+            - "8080:8080"
+        networks:
+            - otymus-net
+
+    frontend:
+        build:
+            context: ./app-transporte
+            dockerfile: Dockerfile
+        container_name: app_transporte
+        restart: on-failure
+        depends_on:
+            - backend
+        networks:
+            - otymus-net
+
+    nginx:
+        image: nginx:alpine
+        container_name: nginx_transporte
+        ports:
+            - "80:80"
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./app-transporte/dist:/usr/share/nginx/html:ro
+        depends_on:
+            - frontend
+        networks:
+            - otymus-net
+volumes:
+    mysql-data:
+
+networks:
+    otymus-net: {}

@@ -67,8 +67,8 @@ public class SecurityConfigurations {
         CorsConfiguration configuration = new CorsConfiguration();
 
         // Permitir a origem do frontend (http://localhost)      
-        configuration.addAllowedOrigin("http://localhost");  // ou http://localhost:80
-        configuration.addAllowedOrigin("http://10.85.190.175"); // IP da sua máquina
+        configuration.addAllowedOrigin("http://localhost:85");  // ou http://localhost:80
+        configuration.addAllowedOrigin("http://10.85.190.38:85"); // IP da sua máquina servidor
         configuration.addAllowedMethod("*"); // GET, POST, etc.
         configuration.addAllowedHeader("*"); // Authorization, Content-Type...
         configuration.setAllowCredentials(true); // se usar cookies ou auth

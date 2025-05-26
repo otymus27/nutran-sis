@@ -1,6 +1,7 @@
 package com.otymus.api_transporte.services;
 
 import com.otymus.api_transporte.entities.Carro.Carro;
+import com.otymus.api_transporte.entities.Destino.Destino;
 import com.otymus.api_transporte.entities.Motorista.Motorista;
 import com.otymus.api_transporte.entities.Setor.Setor;
 import com.otymus.api_transporte.entities.Solicitacao.Dto.SolicitacaoCadastroDto;
@@ -31,6 +32,7 @@ public class SolicitacaoService {
     private final MotoristaRepository motoristaRepository;
     private final UsuarioRepository usuarioRepository;
     private final SetorRepository setorRepository;
+    private final DestinoRepository destinoRepository;
 
     @Autowired
     public SolicitacaoService(
@@ -38,13 +40,15 @@ public class SolicitacaoService {
             CarroRepository carroRepository,
             MotoristaRepository motoristaRepository,
             UsuarioRepository usuarioRepository,
-            SetorRepository setorRepository
+            SetorRepository setorRepository,
+            DestinoRepository destinoRepository
     ) {
         this.solicitacaoRepository = solicitacaoRepository;
         this.carroRepository = carroRepository;
         this.motoristaRepository = motoristaRepository;
         this.usuarioRepository = usuarioRepository;
         this.setorRepository = setorRepository;
+        this.destinoRepository = destinoRepository;
     }
 
 
@@ -52,7 +56,6 @@ public class SolicitacaoService {
     public SolicitacaoDto cadastrar(SolicitacaoCadastroDto dto) {
         Solicitacao solicitacao = new Solicitacao();
         solicitacao.setDataSolicitacao(dto.dataSolicitacao());
-        solicitacao.setDestino(dto.destino());
         solicitacao.setStatus(dto.status());
 
         // Buscar entidades relacionadas
@@ -62,6 +65,8 @@ public class SolicitacaoService {
                 .orElseThrow(() -> new EntityNotFoundException("Motorista não encontrado com ID: " + dto.idMotorista()));
         Setor setor = setorRepository.findById(dto.idSetor())
                 .orElseThrow(() -> new EntityNotFoundException("Setor não encontrado com ID: " + dto.idSetor()));
+        Destino destino = destinoRepository.findById(dto.idDestino())
+                .orElseThrow(() -> new EntityNotFoundException("Destino não encontrado com ID: " + dto.idDestino()));
 
         // Buscar o usuário logado
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -73,6 +78,7 @@ public class SolicitacaoService {
         solicitacao.setMotorista(motorista);
         solicitacao.setSetor(setor);
         solicitacao.setUsuario(usuario);
+        solicitacao.setDestino(destino);
 
         // Setar demais campos que não tem relacionamentos
         solicitacao.setHoraSaida(dto.horaSaida());
@@ -134,7 +140,6 @@ public class SolicitacaoService {
 
         // Atualiza os dados da solicitação
         solicitacao.setDataSolicitacao(dto.dataSolicitacao());
-        solicitacao.setDestino(dto.destino());
         solicitacao.setStatus(dto.status());
 
         // Carrega entidades associadas
@@ -144,6 +149,8 @@ public class SolicitacaoService {
                 .orElseThrow(() -> new EntityNotFoundException("Motorista não encontrado com ID: " + dto.idMotorista()));
         Setor setor = setorRepository.findById(dto.idSetor())
                 .orElseThrow(() -> new EntityNotFoundException("Setor não encontrado com ID: " + dto.idSetor()));
+        Destino destino = destinoRepository.findById(dto.idDestino())
+                .orElseThrow(() -> new EntityNotFoundException("Destino não encontrado com ID: " + dto.idDestino()));
 
         // Captura o usuário logado
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -154,6 +161,7 @@ public class SolicitacaoService {
         solicitacao.setCarro(carro);
         solicitacao.setMotorista(motorista);
         solicitacao.setSetor(setor);
+        solicitacao.setDestino(destino);
         solicitacao.setUsuario(usuario); // Atualiza o usuário responsável pela alteração
 
         // Setar demais campos que não tem relacionamentos
@@ -239,7 +247,8 @@ public class SolicitacaoService {
         return new SolicitacaoResponseDto(
                 s.getId(),
                 s.getDataSolicitacao(),
-                s.getDestino(),
+                s.getDestino().getId(),
+                s.getDestino().getNome(),
                 s.getStatus(),
                 s.getCarro().getId(),
                 s.getCarro().getPlaca(),

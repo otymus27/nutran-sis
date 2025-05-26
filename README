@@ -29,3 +29,9 @@ Aplicação Full Stack para gerenciamento de transporte.
 git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
 cd SEU_REPOSITORIO
 ```
+
+FEATURES
+
+#
+
+Feature-01: implementando a entidade para destino e o CRUD

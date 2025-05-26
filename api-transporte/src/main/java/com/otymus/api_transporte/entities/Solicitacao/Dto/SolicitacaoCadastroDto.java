@@ -11,7 +11,7 @@ public record SolicitacaoCadastroDto(
         LocalDate dataSolicitacao,
 
         @NotBlank(message = "O destino é obrigatório")
-        String destino,
+        Long idDestino,
 
         @NotBlank(message = "O status é obrigatório")
         String status,

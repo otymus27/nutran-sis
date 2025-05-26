@@ -2,10 +2,7 @@ package com.otymus.api_transporte.services;
 
 import com.otymus.api_transporte.entities.DashboardDTO;
 import com.otymus.api_transporte.entities.UltimaSolicitacaoDTO;
-import com.otymus.api_transporte.repositories.CarroRepository;
-import com.otymus.api_transporte.repositories.MotoristaRepository;
-import com.otymus.api_transporte.repositories.SetorRepository;
-import com.otymus.api_transporte.repositories.SolicitacaoRepository;
+import com.otymus.api_transporte.repositories.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,15 +15,17 @@ public class DashboardService {
     private final MotoristaRepository motoristaRepository;
     private final SetorRepository setorRepository;
     private final SolicitacaoRepository solicitacaoRepository;
+    private final DestinoRepository destinoRepository;
 
     public DashboardService(CarroRepository carroRepository,
                             MotoristaRepository motoristaRepository,
                             SetorRepository setorRepository,
-                            SolicitacaoRepository solicitacaoRepository) {
+                            SolicitacaoRepository solicitacaoRepository, DestinoRepository destinoRepository) {
         this.carroRepository = carroRepository;
         this.motoristaRepository = motoristaRepository;
         this.setorRepository = setorRepository;
         this.solicitacaoRepository = solicitacaoRepository;
+        this.destinoRepository = destinoRepository;
     }
 
     public DashboardDTO getDashboardData() {
@@ -40,7 +39,7 @@ public class DashboardService {
                 .stream()
                 .map(s -> new UltimaSolicitacaoDTO(
                         s.getId(),
-                        s.getDestino(),
+                        s.getDestino().getNome(),
                         s.getDataSolicitacao(),
                         s.getStatus(),
                         s.getMotorista().getNome(),

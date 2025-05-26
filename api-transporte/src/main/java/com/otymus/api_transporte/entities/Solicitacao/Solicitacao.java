@@ -3,6 +3,7 @@ package com.otymus.api_transporte.entities.Solicitacao;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.otymus.api_transporte.entities.Carro.Carro;
+import com.otymus.api_transporte.entities.Destino.Destino;
 import com.otymus.api_transporte.entities.Motorista.Motorista;
 import com.otymus.api_transporte.entities.Setor.Setor;
 import com.otymus.api_transporte.entities.Usuario.Usuario;
@@ -28,9 +29,6 @@ public class Solicitacao {
     private LocalDate dataSolicitacao;
 
     @Column(nullable = false)
-    private String destino;
-
-    @Column(nullable = false)
     private String status; // PENDENTE, APROVADA, RECUSADA
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -48,6 +46,10 @@ public class Solicitacao {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_setor", nullable = false)
     private Setor setor;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_destino", nullable = false)
+    private Destino destino;
 
     @Column(name = "km_inicial")
     private Integer kmInicial;

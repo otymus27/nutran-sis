@@ -13,7 +13,7 @@ import java.util.List;
 public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> {
     List<Solicitacao> findByStatus(String status);
 
-    List<Solicitacao> findByDestinoContaining(String destino);
+   // List<Solicitacao> findByDestinoContaining(String nome);
 
     @Override
     Page<Solicitacao> findAll(Pageable pageable);

@@ -1,22 +1,41 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Typography, Box, CircularProgress, Alert, Toolbar } from '@mui/material';
 import Footer from '../../components/Footer/Footer.jsx';
 import CustomHeader from '../../components/Header/CustomHeader.jsx';
 import useAuth from '../../hooks/useAuth.jsx';
 import Sidebar from '../../components/Sidebar/Sidebar.jsx';
-
 import DashboardResumo from '../../components/Dashboard/DashboardResumo.jsx';
+import RedefinirSenhaModal from '../../components/Modals/RedefinirSenhaModal.jsx';
 
 const HomePage = () => {
   const { isLoggedIn, user, loading, error, logout } = useAuth();
   const navigate = useNavigate();
+
+  const [modalAberto, setModalAberto] = useState(false);
 
   useEffect(() => {
     if (!loading && !isLoggedIn) {
       navigate('/', { replace: true });
     }
   }, [isLoggedIn, loading, navigate]);
+
+  useEffect(() => {
+    if (user?.senhaProvisoria) {
+      setModalAberto(true);
+    }
+  }, [user]);
+
+  const handleModalClose = () => {
+    // Caso queira permitir fechar sem redefinir (não recomendado)
+    // setModalAberto(false);
+  };
+
+  const handleRedefinicaoSuccess = () => {
+    // Após redefinir com sucesso, pode forçar logout
+    logout();
+    setModalAberto(false);
+  };
 
   if (loading) {
     return (
@@ -49,6 +68,13 @@ const HomePage = () => {
         </Box>
         <Footer />
       </Box>
+
+      <RedefinirSenhaModal
+        open={modalAberto}
+        onClose={handleModalClose}
+        userId={user.id}
+        onSuccess={handleRedefinicaoSuccess}
+      />
     </Box>
   );
 };

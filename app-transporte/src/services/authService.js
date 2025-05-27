@@ -7,6 +7,7 @@ import { parseAxiosError } from './parseAxiosError.js';
  */
 export const login = async (login, senha) => {
   try {
+    //const response = await API.post('/login', { login, senha });
     const response = await API.post('/login', { login, senha });
     const token = response.data.accessToken;
 

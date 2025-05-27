@@ -25,6 +25,13 @@ public class Usuario {
 
     private String senha;
 
+    /**
+     * Indica se a senha atual é provisória.
+     * Usada para forçar o usuário a alterá-la no próximo login.
+     */
+    @Column(nullable = false)
+    private boolean senhaProvisoria = false;
+
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinTable(name = "tb_usuarios_roles",
             joinColumns = @JoinColumn(name = "user_id"),

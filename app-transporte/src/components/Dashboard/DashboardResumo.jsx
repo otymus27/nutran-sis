@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Grid, Paper, Typography, CircularProgress, Box, Alert, Table, TableBody,
-  TableCell, TableContainer, TableHead, TableRow
+  Grid,
+  Paper,
+  Typography,
+  CircularProgress,
+  Box,
+  Alert,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from '@mui/material';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import PeopleIcon from '@mui/icons-material/People';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import {getDashboard} from '../../services/DashboardService.js'; // Ajuste o caminho conforme necessário
+import { getDashboard } from '../../services/DashboardService.js'; // Ajuste o caminho conforme necessário
 
 const DashboardResumo = () => {
   const [dashboardData, setDashboard] = useState(null);
@@ -20,7 +30,7 @@ const DashboardResumo = () => {
         const response = await getDashboard();
         setDashboard(response);
       } catch (err) {
-        setError('Erro ao carregar dados do dashboard.',err);
+        setError('Erro ao carregar dados do dashboard.', err);
       } finally {
         setLoading(false);
       }
@@ -41,7 +51,11 @@ const DashboardResumo = () => {
   );
 
   if (loading) {
-    return <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}><CircularProgress /></Box>;
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
   if (error) {
@@ -77,7 +91,7 @@ const DashboardResumo = () => {
             {dashboardData.ultimasSolicitacoes.map((s) => (
               <TableRow key={s.id}>
                 <TableCell>{s.id}</TableCell>
-                <TableCell>{s.destino}</TableCell>
+                <TableCell>{s.id.destino}</TableCell>
                 <TableCell>{s.dataSolicitacao}</TableCell>
                 <TableCell>{s.status}</TableCell>
                 <TableCell>{s.nomeMotorista}</TableCell>

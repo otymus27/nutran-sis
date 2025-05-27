@@ -89,3 +89,38 @@ export const deleteUsuario = async (id) => {
     throw error;
   }
 };
+
+/**
+ * Gera senha provisória para um usuário.
+ * @param {number} id - ID do usuário para o qual a senha será gerada.
+ */
+export const gerarSenhaProvisoria = async (id) => {
+  try {
+    const response = await API.post('/recuperar-senha/gerar-provisoria', { id });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao gerar senha provisória:', error);
+    throw error;
+  }
+};
+
+/**
+ * Confirma a redefinição de senha.
+ * @param {Object} dados - Dados necessários para redefinir a senha.
+ * @param {number} dados.id - ID do usuário.
+ * @param {string} dados.senhaProvisoria - Senha provisória.
+ * @param {string} dados.novaSenha - Nova senha.
+ */
+export const confirmarRedefinicao = async ({ id, senhaProvisoria, novaSenha }) => {
+  try {
+    const response = await API.post('/recuperar-senha/confirmar-redefinicao', {
+      id,
+      senhaProvisoria,
+      novaSenha,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao confirmar redefinição de senha:', error);
+    throw error;
+  }
+};

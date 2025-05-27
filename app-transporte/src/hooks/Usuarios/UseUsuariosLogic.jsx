@@ -4,6 +4,8 @@ import {
   addUsuario,
   updateUsuario,
   deleteUsuario as deleteUsuarioService,
+  gerarSenhaProvisoria,
+  confirmarRedefinicao,
 } from '../../services/UsuarioService.js';
 import useDebounce from '../../hooks/useDebounce.js';
 
@@ -207,6 +209,30 @@ export const useUsuariosLogic = (user, fetchTrigger) => {
     setNotification({ ...notification, open: false });
   };
 
+  // Método para gerar senha provisória
+  const handleGerarSenha = async (usuarioId) => {
+    try {
+      const senha = await gerarSenhaProvisoria(usuarioId);
+      return senha;
+    } catch (error) {
+      console.error('Erro ao gerar senha provisória:', error);
+      throw error;
+    }
+  };
+
+  const handleConfirmarRedefinicao = async (id, senhaProvisoria, novaSenha) => {
+    try {
+      const response = await confirmarRedefinicao({ id, senhaProvisoria, novaSenha });
+      setNotification({
+        open: true,
+        severity: 'success',
+        message: response.mensagem || 'Senha redefinida com sucesso!',
+      });
+    } catch (error) {
+      setNotification({ open: true, severity: 'error', message: 'Erro ao redefinir senha.', error });
+    }
+  };
+
   return {
     // State
     allUsuarios,
@@ -228,5 +254,7 @@ export const useUsuariosLogic = (user, fetchTrigger) => {
     handleDeleteUsuario,
     handleSearchChange,
     handleCloseNotification,
+    handleGerarSenha,
+    handleConfirmarRedefinicao,
   };
 };

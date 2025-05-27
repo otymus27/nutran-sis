@@ -4,4 +4,4 @@ import com.otymus.api_transporte.entities.Role.Dto.RoleDto;
 
 import java.util.Set;
 
-public record UsuarioDto(Long id, String login, Set<RoleDto> roles) {}
+public record UsuarioDto(Long id, String login, Boolean senhaProvisoria, Set<RoleDto> roles) {}

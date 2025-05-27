@@ -1,48 +1,36 @@
 import { Table, TableHead, TableRow, TableCell, TableBody, IconButton, Box, Pagination } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 
-const UsuarioTable = ({ usuarios, onEdit, onDelete, currentPage, totalPages, onPageChange, isAdmin, onGerarSenha }) => {
+const DestinoTable = ({ destinos, onEdit, onDelete, currentPage, totalPages, onPageChange, isAdmin }) => {
   return (
     <>
       <Table sx={{ mt: 2 }}>
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell>Login</TableCell>
-            <TableCell>Role</TableCell>
+            <TableCell>Nome</TableCell>
             <TableCell align="right">Ações</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {usuarios.length === 0 ? (
+          {destinos.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={4} align="center">
-                Nenhum usuário encontrado.
+              <TableCell colSpan={3} align="center">
+                Nenhum destino encontrado.
               </TableCell>
             </TableRow>
           ) : (
-            usuarios.map((usuario) => (
-              <TableRow key={usuario.id} hover>
-                <TableCell>{usuario.id}</TableCell>
-                <TableCell>{usuario.login}</TableCell>
-                <TableCell>
-                  {usuario.roles && usuario.roles.length > 0
-                    ? usuario.roles.map((role) => role.nome).join(', ')
-                    : 'N/A'}
-                </TableCell>
+            destinos.map((destino) => (
+              <TableRow key={destino.id} hover>
+                <TableCell>{destino.id}</TableCell>
+                <TableCell>{destino.nome}</TableCell>
                 <TableCell align="right">
-                  <IconButton size="small" color="primary" onClick={() => onEdit(usuario)}>
+                  <IconButton size="small" color="primary" onClick={() => onEdit(destino)}>
                     <Edit />
                   </IconButton>
                   {isAdmin && (
-                    <IconButton size="small" color="error" onClick={() => onDelete(usuario.id)}>
+                    <IconButton size="small" color="error" onClick={() => onDelete(destino.id)}>
                       <Delete />
-                    </IconButton>
-                  )}
-
-                  {isAdmin && (
-                    <IconButton size="small" color="secondary" onClick={() => onGerarSenha(usuario.id)}>
-                      <Key />
                     </IconButton>
                   )}
                 </TableCell>
@@ -68,4 +56,4 @@ const UsuarioTable = ({ usuarios, onEdit, onDelete, currentPage, totalPages, onP
   );
 };
 
-export default UsuarioTable;
+export default DestinoTable;

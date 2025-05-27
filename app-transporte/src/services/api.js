@@ -2,7 +2,12 @@ import axios from 'axios';
 
 // Cria instância do Axios com base na URL do .env ou localhost como fallback
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  //Usado para produção
+  //baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+
+  //Usado para desenvolvimento
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080',
+
   timeout: 10000, // 10 segundos
   withCredentials: true,
 });

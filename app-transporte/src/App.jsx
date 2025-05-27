@@ -6,23 +6,24 @@ import LoginPage from './pages/Login/LoginPage';
 import HomePage from './pages/Home/HomePage';
 import CarrosPage from './pages/Carros/CarrosPage.jsx';
 import SetorPage from './pages/Setor/SetorPage.jsx';
+import DestinoPage from './pages/Destino/DestinoPage.jsx';
 import UsuariosPage from './pages/Usuarios/UsuariosPage';
 import MotoristasPage from './pages/Motoristas/MotoristasPage';
 import SolicitacaoPage from './pages/Solicitacao/SolicitacaoPage.jsx';
-// import ItemPage from './pages/Item/ItemPage';
-// import EmprestimosPage from './pages/Emprestimos/EmprestimosPage.jsx';
-//import { SnackbarProvider } from './hooks/Emprestimos/useSnackbar.jsx'; // Importação do SnackbarProvider
-// import EmprestimosRelatorio from './components/Relatorios/EmprestimosRelatorio.jsx';
+import RedefinirSenhaPage from './pages/Login/RedefinirSenhaPage.jsx';
 
 function App() {
   return (
     <>
-    {/* // <SnackbarProvider>      */}
+      {/* // <SnackbarProvider>      */}
       {/* Envolvendo toda a aplicação com o SnackbarProvider */}
       <Router>
         <AuthProvider>
           <Routes>
             <Route path="/" element={<LoginPage />} />
+
+            {/* Rota para redefinir senha */}
+            <Route path="/redefinir-senha" element={<RedefinirSenhaPage />} />
 
             <Route
               path="/home"
@@ -70,6 +71,15 @@ function App() {
             />
 
             <Route
+              path="/destino"
+              element={
+                <PrivateRoute>
+                  <DestinoPage />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
               path="/solicitacao"
               element={
                 <PrivateRoute>
@@ -77,12 +87,10 @@ function App() {
                 </PrivateRoute>
               }
             />
-
-            
           </Routes>
         </AuthProvider>
       </Router>
-    {/* // </SnackbarProvider> */}
+      {/* // </SnackbarProvider> */}
     </>
   );
 }

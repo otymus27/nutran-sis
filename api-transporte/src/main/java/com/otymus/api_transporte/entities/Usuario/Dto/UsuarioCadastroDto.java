@@ -11,6 +11,7 @@ public record UsuarioCadastroDto(
         String login,
         @NotBlank
         String senha,
+        Boolean senhaProvisoria,
         Set<Long> roleIds
 ) {
 }

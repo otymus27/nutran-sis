@@ -2,16 +2,20 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from '../pages/Home/HomePage.jsx'; // Página pública
 import PrivateRoute from './PrivateRoute.jsx';
 import SetorPage from '../pages/Setor/SetorPage.jsx';
+import DestinoPage from '../pages/Destino/DestinoPage.jsx';
 import UsuariosPage from '../pages/Usuarios/UsuariosPage.jsx';
 import MotoristasPage from './pages/Motoristas/MotoristasPage.jsx';
 import CarrosPage from '../pages/Carro/CarrosPage.jsx';
 import SolicitacaoPage from '../pages/Solicitacao/SolicitacaoPage.jsx';
+import RedefinirSenhaPage from '../pages/Login/RedefinirSenhaPage.jsx';
 
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        {/* Rota para redefinir senha */}
+        <Route path="/redefinir-senha" element={<RedefinirSenhaPage />} />
         <Route path="/home" element={<PrivateRoute>{/* <Dashboard /> */}</PrivateRoute>} />
         <Route
           path="/carro"
@@ -45,6 +49,15 @@ const AppRoutes = () => {
           element={
             <PrivateRoute>
               <SetorPage></SetorPage>
+            </PrivateRoute>
+          }
+        />
+
+        <Routes
+          path="/destino"
+          element={
+            <PrivateRoute>
+              <DestinoPage></DestinoPage>
             </PrivateRoute>
           }
         />

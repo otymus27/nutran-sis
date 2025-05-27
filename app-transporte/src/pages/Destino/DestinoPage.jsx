@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 
 // Hooks e Componentes personalizados
 import useAuth from '../../hooks/useAuth.jsx';
-import { useUsuariosLogic } from '../../hooks/Usuarios/UseUsuariosLogic.jsx';
-import UsuariosList from './UsuariosList.jsx';
-import UsuarioModal from '../../components/Modals/UsuarioModal.jsx';
-import GerarRelatorioUsuarios from '../../components/Relatorios/UsuariosRelatorio.jsx';
+import { useDestinoLogic } from '../../hooks/Destino/UseDestinoLogic.jsx';
+import DestinoList from '../../pages/Destino/DestinoList.jsx';
+import DestinoModal from '../../components/Modals/DestinoModal.jsx';
+import GerarRelatorioDestinos from '../../components/Relatorios/DestinoRelatorio.jsx';
 
 // Componentes de layout
 import Sidebar from '../../components/Sidebar/Sidebar.jsx';
@@ -16,68 +16,60 @@ import CustomHeader from '../../components/Header/CustomHeader.jsx';
 import Footer from '../../components/Footer/Footer.jsx';
 import { menuStructure } from '../../components/Menu/Menu.jsx';
 
-const UsuariosPage = () => {
+const DestinoPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // Novo estado para guardar a senha gerada e controle do Dialog/Snackbar
-  const [senhaGerada, setSenhaGerada] = useState('');
-  const [openSenhaSnackbar, setOpenSenhaSnackbar] = useState(false);
-
-  // variaveis para uso do Menu
+  // variáveis para uso do Menu
   const userRole = user?.roles?.[0]?.nome?.toUpperCase();
 
-  const menu = menuStructure.find((menu) => menu.key === 'carros');
+  const menu = menuStructure.find((menu) => menu.key === 'destinos');
   const isAddDisabled = menu?.permissions?.disableAdd?.includes(userRole);
 
   // Estado para ordenação
   const [sortConfig, setSortConfig] = useState({ field: 'nome', order: 'asc' });
 
-  // Lógica de gerenciamento dos usuários
   const {
-    filteredUsuarios,
+    filteredDestinos,
     searchTerm,
     isLoading,
     openModal,
-    selectedUsuario,
+    selectedDestino,
     formData,
     notification,
-    senhaProvisoria,
     handleSearchChange,
     handleOpenModal,
     handleCloseModal,
     handleSave,
-    handleDeleteUsuario,
-    handleGerarSenha, // <-- esta função retorna a senha gerada
-    handleConfirmarRedefinicao,
+    handleDeleteDestino,
     handleCloseNotification,
     setFormData,
-  } = useUsuariosLogic(user);
+  } = useDestinoLogic(user);
 
-  // Lógica de ordenação
-  const sortedUsuarios = useMemo(() => {
-    if (!filteredUsuarios) return [];
-    return [...filteredUsuarios].sort((a, b) => {
+  // Ordena os destinos conforme campo e ordem
+  const sortedDestinos = useMemo(() => {
+    if (!filteredDestinos) return [];
+    return [...filteredDestinos].sort((a, b) => {
       const valueA = String(a[sortConfig.field] || '').toLowerCase();
       const valueB = String(b[sortConfig.field] || '').toLowerCase();
       return sortConfig.order === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
     });
-  }, [filteredUsuarios, sortConfig]);
+  }, [filteredDestinos, sortConfig]);
 
-  // Lógica de paginação
+  // Paginação
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const totalPages = Math.ceil(sortedUsuarios.length / itemsPerPage);
-  const paginatedUsuarios = useMemo(() => {
+  const totalPages = Math.ceil(sortedDestinos.length / itemsPerPage);
+  const paginatedDestinos = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return sortedUsuarios.slice(startIndex, startIndex + itemsPerPage);
-  }, [sortedUsuarios, currentPage]);
+    return sortedDestinos.slice(startIndex, startIndex + itemsPerPage);
+  }, [sortedDestinos, currentPage]);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
-  // Lógica de alteração de ordenação
+  // Alterna ordenação
   const handleSortChange = (field) => {
     setSortConfig((prevConfig) => {
       if (prevConfig.field === field) {
@@ -88,49 +80,17 @@ const UsuariosPage = () => {
     setCurrentPage(1);
   };
 
-  // Navegação para a página inicial
+  // Navegar para página inicial
   const handleGoHome = () => navigate('/home');
 
-  // Manipulação de mudança no formulário do modal
+  // Atualiza formulário do modal
   const handleFormChange = (field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Função para gerar senha e mostrar Snackbar com senha gerada
-  const onGerarSenha = async (usuarioId) => {
-    try {
-      const response = await handleGerarSenha(usuarioId);
-      const senha = response.mensagem; // <== Pegue o campo correto
-      setSenhaGerada(senha);
-      setOpenSenhaSnackbar(true);
-    } catch (error) {
-      console.error('Erro ao gerar senha:', error);
-    }
-  };
-
-  // Função para redefinição de senha
-  const onConfirmarRedefinicao = async (usuarioId) => {
-    const novaSenha = prompt('Digite a nova senha:');
-    if (!novaSenha) return;
-
-    await handleConfirmarRedefinicao(usuarioId, senhaProvisoria, novaSenha);
-  };
-
-  // Se não houver usuário autenticado, exibe uma mensagem de erro
   if (!user) {
     return (
-      <Box
-        sx={{
-          p: 3,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
-      >
+      <Box sx={{ p: 3, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <Alert severity="error">Erro ao carregar dados do usuário. Por favor, faça login novamente.</Alert>
       </Box>
     );
@@ -147,36 +107,33 @@ const UsuariosPage = () => {
           </Button>
 
           <Typography variant="h4" gutterBottom>
-            Gerenciamento de Usuários
+            Gerenciamento de Destinos
           </Typography>
 
-          {/* Aqui é renderizado o campo de busca e botoes adicionar e gerar relatorio */}
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 2 }}>
             <Search sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
             <TextField
               fullWidth
               variant="outlined"
-              placeholder="Pesquisar usuários por login ou role..."
+              placeholder="Pesquisar destino por nome..."
               value={searchTerm}
               onChange={handleSearchChange}
             />
 
             <>
               <Button disabled={isAddDisabled} variant="contained" color="primary" onClick={() => handleOpenModal()}>
-                Adicionar Usuário
+                Adicionar Destino
               </Button>
-              <GerarRelatorioUsuarios usuarios={filteredUsuarios} loading={isLoading} />
+              <GerarRelatorioDestinos destinos={filteredDestinos} loading={isLoading} />
             </>
           </Box>
 
-          <UsuariosList
-            paginatedUsuarios={paginatedUsuarios}
+          <DestinoList
+            paginatedDestinos={paginatedDestinos}
             isLoading={isLoading}
             user={user}
-            onEditUsuario={handleOpenModal}
-            onDeleteUsuario={handleDeleteUsuario}
-            onGerarSenha={onGerarSenha}
-            onConfirmarRedefinicao={onConfirmarRedefinicao}
+            onEditDestino={handleOpenModal}
+            onDeleteDestino={handleDeleteDestino}
             sortConfig={sortConfig}
             onSortChange={handleSortChange}
           />
@@ -197,11 +154,10 @@ const UsuariosPage = () => {
         <Footer />
       </Box>
 
-      {/* Modal de Cadastro/Edição de Usuários */}
-      <UsuarioModal
+      <DestinoModal
         open={openModal}
         onClose={handleCloseModal}
-        selectedUsuario={selectedUsuario}
+        selectedDestino={selectedDestino}
         formData={formData}
         onFormChange={handleFormChange}
         onSave={handleSave}
@@ -209,7 +165,6 @@ const UsuariosPage = () => {
         user={user}
       />
 
-      {/* Snackbar de Notificação */}
       <Snackbar
         open={notification.open}
         autoHideDuration={6000}
@@ -220,20 +175,8 @@ const UsuariosPage = () => {
           {notification.message}
         </Alert>
       </Snackbar>
-
-      {/* Snackbar exclusivo para mostrar senha provisória gerada */}
-      <Snackbar
-        open={openSenhaSnackbar}
-        autoHideDuration={10000}
-        onClose={() => setOpenSenhaSnackbar(false)}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Alert onClose={() => setOpenSenhaSnackbar(false)} severity="info" sx={{ width: '100%' }}>
-          Senha provisória gerada: <strong>{senhaGerada}</strong>
-        </Alert>
-      </Snackbar>
     </Box>
   );
 };
 
-export default UsuariosPage;
+export default DestinoPage;

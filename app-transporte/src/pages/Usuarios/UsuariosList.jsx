@@ -1,4 +1,7 @@
 import React from 'react';
+import { LockReset as LockResetIcon } from '@mui/icons-material';
+import { Tooltip, Button } from '@mui/material';
+
 import {
   Table,
   TableBody,
@@ -28,6 +31,7 @@ const UsuariosList = ({
   onDeleteUsuario,
   sortConfig,
   onSortChange,
+  onGerarSenha,
 }) => {
   // variaveis para uso do Menu
   const userRole = user?.roles?.[0]?.nome?.toUpperCase();
@@ -110,22 +114,37 @@ const UsuariosList = ({
 
               <TableCell>
                 <Box sx={{ display: 'flex', gap: 1 }}>
-                  <IconButton
-                    disabled={isEditDisabled}
-                    color="primary"
-                    size="small"
-                    onClick={() => onEditUsuario(usuario)}
-                  >
-                    <EditIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton
-                    disabled={isDeleteDisabled}
-                    color="error"
-                    size="small"
-                    onClick={() => onDeleteUsuario(usuario.id)}
-                  >
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
+                  <Tooltip title="Editar usuário">
+                    <IconButton
+                      disabled={isEditDisabled}
+                      color="primary"
+                      size="small"
+                      onClick={() => onEditUsuario(usuario)}
+                    >
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+
+                  <Tooltip title="Excluir usuário">
+                    <IconButton
+                      disabled={isDeleteDisabled}
+                      color="error"
+                      size="small"
+                      onClick={() => onDeleteUsuario(usuario.id)}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Gerar senha provisória">
+                    <IconButton
+                      disabled={isDeleteDisabled}
+                      color="warning"
+                      size="small"
+                      onClick={() => onGerarSenha(usuario.id)}
+                    >
+                      <LockResetIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
                 </Box>
               </TableCell>
             </TableRow>

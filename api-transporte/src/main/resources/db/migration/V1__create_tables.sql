@@ -52,3 +52,7 @@ INSERT INTO tb_usuarios_roles (user_id, role_id) VALUES
                                                      (8, 1),  -- usuario8 com ROLE_USER
                                                      (9, 2),  -- usuario9 com ROLE_ADMIN
                                                      (10, 1); -- usuario10 com ROLE_USER
+
+-- Migration: adiciona coluna senha_provisoria na tabela tb_usuarios
+ALTER TABLE tb_usuarios
+    ADD COLUMN senha_provisoria BOOLEAN NOT NULL DEFAULT FALSE;

@@ -27,4 +27,6 @@ public class TokenController {
         System.out.println(loginRequest);
         return ResponseEntity.ok(tokenService.authenticateAndGenerateToken(loginRequest));
     }
+
+
 }

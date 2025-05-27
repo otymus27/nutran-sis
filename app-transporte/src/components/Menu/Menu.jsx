@@ -134,6 +134,38 @@ export const menuStructure = [
       },
     ],
   },
+
+  {
+    key: 'destinos',
+    icon: <Category />,
+    text: 'Destinos',
+    allowedRoles: ['ADMIN', 'GERENTE'],
+    permissions: {
+      disableDelete: ['GERENTE'],
+      disableEdit: ['BASIC'],
+      disableAdd: ['GERENTE'],
+    },
+    children: [
+      {
+        text: 'Gerenciar',
+        path: '/destino',
+        icon: <AddCircleOutline />,
+        allowedRoles: ['ADMIN', 'GERENTE'],
+      },
+      {
+        text: 'Consultar',
+        path: '/setor/consultar',
+        icon: <Search />,
+        allowedRoles: ['ADMIN'],
+      },
+      {
+        text: 'Relatório',
+        path: '/setor/relatorio',
+        icon: <BarChart />,
+        allowedRoles: ['ADMIN'],
+      },
+    ],
+  },
   {
     key: 'solicitacoes',
     icon: <Assignment />,

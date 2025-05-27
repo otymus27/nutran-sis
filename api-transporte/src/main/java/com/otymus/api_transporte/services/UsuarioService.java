@@ -48,6 +48,7 @@ public class UsuarioService {
         usuario.setLogin(dto.login());
         usuario.setSenha(passwordEncoder.encode(dto.senha()));
         usuario.setRoles(roles);
+        usuario.setSenhaProvisoria(false); // Por padrão, senha definitiva
 
         usuarioRepository.save(usuario);
 
@@ -55,6 +56,7 @@ public class UsuarioService {
         return new UsuarioDto(
                 usuario.getId(),
                 usuario.getLogin(),
+                usuario.isSenhaProvisoria(),
                 usuario.getRoles().stream()
                         .map(role -> new RoleDto(role.getId(), role.getNome()))
                         .collect(Collectors.toSet())
@@ -71,6 +73,7 @@ public class UsuarioService {
             return new UsuarioDto(
                     usuario.getId(),
                     usuario.getLogin(),
+                    usuario.isSenhaProvisoria(),
                     rolesDto
             );
         }).collect(Collectors.toList());
@@ -87,6 +90,7 @@ public class UsuarioService {
             return new UsuarioDto(
                     usuario.getId(),
                     usuario.getLogin(),
+                    usuario.isSenhaProvisoria(),
                     rolesDto
             );
         }
@@ -118,7 +122,7 @@ public class UsuarioService {
                     .map(role -> new RoleDto(role.getId(), role.getNome()))
                     .collect(Collectors.toSet());
 
-            return new UsuarioDto(usuario.getId(), usuario.getLogin(), rolesDto);
+            return new UsuarioDto(usuario.getId(), usuario.getLogin(),usuario.isSenhaProvisoria(), rolesDto);
         }
 
         return null;
@@ -152,6 +156,7 @@ public class UsuarioService {
             return new UsuarioDto(
                     usuario.getId(),
                     usuario.getLogin(),
+                    usuario.isSenhaProvisoria(),
                     rolesDto
             );
         }
@@ -172,6 +177,7 @@ public class UsuarioService {
                         return new UsuarioDto(
                                 usuario.getId(),
                                 usuario.getLogin(),
+                                usuario.isSenhaProvisoria(),
                                 rolesDto
                         );
                     })
@@ -187,7 +193,7 @@ public class UsuarioService {
                 .map(role -> new RoleDto(role.getId(), role.getNome()))
                 .collect(Collectors.toSet());
 
-        return new UsuarioDto(usuario.getId(), usuario.getLogin(), roles);
+        return new UsuarioDto(usuario.getId(), usuario.getLogin(),usuario.isSenhaProvisoria(), roles);
     }
 
     public List<UsuarioDto> listarPaginado(int page, int size) {
@@ -202,13 +208,12 @@ public class UsuarioService {
                     return new UsuarioDto(
                             u.getId(),
                             u.getLogin(),
+                            u.isSenhaProvisoria(),
                             rolesDto
                     );
                 })
                 .collect(Collectors.toList());
     }
-
-
 
 
 }

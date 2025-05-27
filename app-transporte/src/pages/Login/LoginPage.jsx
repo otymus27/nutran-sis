@@ -13,10 +13,11 @@ import {
 } from '@mui/material';
 import { FaUser, FaLock } from 'react-icons/fa';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import GerarSenhaProvisoriaModal from '../../components/Modals/GerarSenhaProvisoriaModal';
+import ConfirmarRedefinicaoSenhaModal from '../../components/Modals/ConfirmarRedefinicaoSenhaModal';
 
-// Substitua pelo seu logo local ou remoto
 const logoUrl =
   'https://www.saude.df.gov.br/documents/37101/0/Logo+SESDF+-+Vers%C3%A3o+Horizontal+v1+%282%29.png/349cd382-761d-c647-5199-0f77cff690e5?t=1727180366655';
 const backgroundImage = '/ambulancia.jpg';
@@ -89,12 +90,10 @@ const LoginPage = () => {
         component="form"
         onSubmit={handleLogin}
       >
-        {/* Logo */}
         <Box display="flex" justifyContent="center" mb={2}>
           <img src={logoUrl} alt="Logo" style={{ height: 60 }} />
         </Box>
 
-        {/* Título */}
         <Box textAlign="center" mb={2}>
           <Typography variant="h6" color="textPrimary" fontWeight={600}>
             Bem-vindo ao Sistema de Gestão de Solicitações
@@ -104,21 +103,18 @@ const LoginPage = () => {
           </Typography>
         </Box>
 
-        {/* Ícone */}
         <Box textAlign="center" mb={2}>
           <Avatar sx={{ m: '0 auto', bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
         </Box>
 
-        {/* Erro */}
         {localError && (
           <Alert severity="error" sx={{ mb: 2 }}>
             {localError}
           </Alert>
         )}
 
-        {/* Campos */}
         <FormControl fullWidth margin="normal" variant="standard">
           <InputLabel htmlFor="login">Login</InputLabel>
           <Input
@@ -151,7 +147,6 @@ const LoginPage = () => {
           />
         </FormControl>
 
-        {/* Botão */}
         <Button type="submit" variant="contained" fullWidth sx={{ mt: 3 }} disabled={localLoading}>
           {localLoading ? <CircularProgress size={24} color="inherit" /> : 'Entrar'}
         </Button>

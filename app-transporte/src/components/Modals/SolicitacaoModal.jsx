@@ -17,25 +17,6 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { solicitacaoSchema } from '../../schemas/SolicitacaoSchema';
 
-const destinosDisponiveis = [
-  'HRBZ',
-  'HRS',
-  'HRSM',
-  'HRG',
-  'HRSAM',
-  'HRP',
-  'HBDF',
-  'HRT',
-  'HMIB',
-  'HRAN',
-  'ADMC',
-  'CAPS-SM',
-  'CAPS-GAMA',
-  'Fórum',
-  'Aeroporto',
-  'Rodoviária',
-];
-
 const SolicitacaoModal = ({
   open,
   onClose,
@@ -45,6 +26,7 @@ const SolicitacaoModal = ({
   motoristas = [],
   setores = [],
   carros = [],
+  destinos = [],
 }) => {
   const isEditMode = Boolean(selectedSolicitacao);
   const dataAtual = new Date().toISOString().split('T')[0];
@@ -60,7 +42,7 @@ const SolicitacaoModal = ({
       idMotorista: '',
       idSetor: '',
       idCarro: '',
-      destino: '',
+      idDestino: '',
       dataSolicitacao: dataAtual,
       status: 'PENDENTE',
       horaSaida: '',
@@ -76,7 +58,7 @@ const SolicitacaoModal = ({
         idMotorista: selectedSolicitacao?.idMotorista || '',
         idSetor: selectedSolicitacao?.idSetor || '',
         idCarro: selectedSolicitacao?.idCarro || '',
-        destino: selectedSolicitacao?.destino || '',
+        idDestino: selectedSolicitacao?.idDestino || '',
         dataSolicitacao: selectedSolicitacao?.dataSolicitacao || dataAtual,
         status: selectedSolicitacao?.status || 'PENDENTE',
         horaSaida: selectedSolicitacao?.horaSaida || '',
@@ -136,6 +118,26 @@ const SolicitacaoModal = ({
             )}
           />
 
+          {/* Destino */}
+          <Controller
+            name="idDestino"
+            control={control}
+            render={({ field }) => (
+              <FormControl fullWidth margin="dense" error={!!errors.idDestino} required>
+                <InputLabel id="destino-label">Destino</InputLabel>
+                <Select {...field} labelId="destino-label" label="Destino">
+                  <MenuItem value="">Selecione o destino</MenuItem>
+                  {destinos.map(({ id, nome }) => (
+                    <MenuItem key={id} value={id}>
+                      {nome}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText>{errors.idDestino?.message}</FormHelperText>
+              </FormControl>
+            )}
+          />
+
           {/* Carro */}
           <Controller
             name="idCarro"
@@ -152,25 +154,6 @@ const SolicitacaoModal = ({
                   ))}
                 </Select>
                 <FormHelperText>{errors.idCarro?.message}</FormHelperText>
-              </FormControl>
-            )}
-          />
-
-          {/* Destino */}
-          <Controller
-            name="destino"
-            control={control}
-            render={({ field }) => (
-              <FormControl fullWidth margin="dense" error={!!errors.destino} required>
-                <InputLabel id="destino-label">Destino</InputLabel>
-                <Select {...field} labelId="destino-label" label="Destino">
-                  {destinosDisponiveis.map((destino) => (
-                    <MenuItem key={destino} value={destino}>
-                      {destino}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText>{errors.destino?.message}</FormHelperText>
               </FormControl>
             )}
           />

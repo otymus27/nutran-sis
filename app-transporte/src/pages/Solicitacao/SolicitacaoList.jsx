@@ -152,7 +152,7 @@ const SolicitacaoList = ({
             return (
               <TableRow key={s.id} hover tabIndex={-1}>
                 <TableCell>{dataFormatada}</TableCell>
-                <TableCell>{s.destino || '—'}</TableCell>
+                <TableCell>{s.nomeDestino || '—'}</TableCell>
                 <TableCell>{s.status || '—'}</TableCell>
                 <TableCell>{s.placaCarro}</TableCell>
                 <TableCell>{s.nomeMotorista || '—'}</TableCell>

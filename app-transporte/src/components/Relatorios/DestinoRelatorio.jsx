@@ -32,7 +32,6 @@ import 'jspdf-autotable';
 const allColumns = [
   { key: 'id', label: 'ID' },
   { key: 'nome', label: 'Nome' },
-  { key: 'descricao', label: 'Descrição' },
 ];
 
 const DestinoRelatorios = ({ destinos, loading }) => {

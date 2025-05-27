@@ -91,7 +91,7 @@ const DashboardResumo = () => {
             {dashboardData.ultimasSolicitacoes.map((s) => (
               <TableRow key={s.id}>
                 <TableCell>{s.id}</TableCell>
-                <TableCell>{s.id.destino}</TableCell>
+                <TableCell>{s.destino}</TableCell>
                 <TableCell>{s.dataSolicitacao}</TableCell>
                 <TableCell>{s.status}</TableCell>
                 <TableCell>{s.nomeMotorista}</TableCell>

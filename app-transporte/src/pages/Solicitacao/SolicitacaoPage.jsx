@@ -48,6 +48,7 @@ const SolicitacaoPage = () => {
     motoristas,
     setores,
     carros,
+    destinos,
   } = useSolicitacaoLogic(user);
 
   // Ordena as solicitações conforme o campo e ordem da configuração
@@ -186,6 +187,7 @@ const SolicitacaoPage = () => {
         motoristas={motoristas}
         setores={setores}
         carros={carros}
+        destinos={destinos}
       />
 
       <Snackbar

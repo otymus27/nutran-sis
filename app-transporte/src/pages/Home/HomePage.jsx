@@ -28,7 +28,7 @@ const HomePage = () => {
 
   const handleModalClose = () => {
     // Caso queira permitir fechar sem redefinir (não recomendado)
-    // setModalAberto(false);
+    setModalAberto(false);
   };
 
   const handleRedefinicaoSuccess = () => {

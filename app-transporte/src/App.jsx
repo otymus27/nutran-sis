@@ -10,7 +10,6 @@ import DestinoPage from './pages/Destino/DestinoPage.jsx';
 import UsuariosPage from './pages/Usuarios/UsuariosPage';
 import MotoristasPage from './pages/Motoristas/MotoristasPage';
 import SolicitacaoPage from './pages/Solicitacao/SolicitacaoPage.jsx';
-import RedefinirSenhaPage from './pages/Login/RedefinirSenhaPage.jsx';
 
 function App() {
   return (
@@ -21,9 +20,6 @@ function App() {
         <AuthProvider>
           <Routes>
             <Route path="/" element={<LoginPage />} />
-
-            {/* Rota para redefinir senha */}
-            <Route path="/redefinir-senha" element={<RedefinirSenhaPage />} />
 
             <Route
               path="/home"

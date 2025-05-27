@@ -5,9 +5,15 @@ export const solicitacaoSchema = z.object({
     required_error: 'Motorista é obrigatório',
     invalid_type_error: 'Motorista inválido',
   }),
+
   idSetor: z.number({
     required_error: 'Setor é obrigatório',
     invalid_type_error: 'Setor inválido',
+  }),
+
+  idDestino: z.number({
+    required_error: 'Destino é obrigatório',
+    invalid_type_error: 'Destino inválido',
   }),
 
   idCarro: z.number({
@@ -15,7 +21,6 @@ export const solicitacaoSchema = z.object({
     invalid_type_error: 'Carro inválido',
   }),
 
-  destino: z.string().nonempty('Destino é obrigatório'),
   dataSolicitacao: z.string().nonempty('Data é obrigatória'),
   status: z.string().optional(),
   horaSaida: z.string().nonempty('Hora de saída é obrigatória'),

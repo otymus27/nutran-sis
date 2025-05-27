@@ -9,6 +9,7 @@ import useDebounce from '../../hooks/useDebounce.js';
 import { getMotoristas } from '../../services/MotoristaService.js';
 import { getSetores } from '../../services/SetorService.js';
 import { getCarros } from '../../services/CarroService.js';
+import { getDestinos } from '../../services/DestinoService.js';
 
 export const useSolicitacaoLogic = (user, fetchTrigger) => {
   const [allSolicitacoes, setAllSolicitacoes] = useState([]);
@@ -19,6 +20,7 @@ export const useSolicitacaoLogic = (user, fetchTrigger) => {
   const [motoristas, setMotoristas] = useState([]);
   const [setores, setSetores] = useState([]);
   const [carros, setCarros] = useState([]);
+  const [destinos, setDestinos] = useState([]);
 
   const [openModal, setOpenModal] = useState(false);
   const [selectedSolicitacao, setSelectedSolicitacao] = useState(null);
@@ -27,7 +29,7 @@ export const useSolicitacaoLogic = (user, fetchTrigger) => {
     idMotorista: '',
     idSetor: '',
     idCarro: '',
-    destino: '',
+    idDestino: '',
     dataSolicitacao: new Date().toISOString().split('T')[0],
     status: 'PENDENTE',
     horaSaida: '',
@@ -48,10 +50,17 @@ export const useSolicitacaoLogic = (user, fetchTrigger) => {
 
   const fetchListas = useCallback(async () => {
     try {
-      const [motoristasData, setoresData, carrosData] = await Promise.all([getMotoristas(), getSetores(), getCarros()]);
+      const [motoristasData, setoresData, carrosData, destinosData] = await Promise.all([
+        getMotoristas(),
+        getSetores(),
+        getCarros(),
+        getDestinos(),
+      ]);
       setMotoristas(motoristasData);
       setSetores(setoresData);
       setCarros(carrosData);
+      setDestinos(destinosData);
+      destinosData;
     } catch (error) {
       console.error('Erro ao buscar listas:', error);
       setNotification({
@@ -94,7 +103,7 @@ export const useSolicitacaoLogic = (user, fetchTrigger) => {
       const term = debouncedSearchTerm.toLowerCase();
       currentData = allSolicitacoes.filter(
         (s) =>
-          (s.destino && s.destino.toLowerCase().includes(term)) ||
+          (s.nomeDestino && s.nomeDestino.toLowerCase().includes(term)) ||
           (s.nomeMotorista && s.nomeMotorista.toLowerCase().includes(term)),
       );
     }
@@ -109,7 +118,7 @@ export const useSolicitacaoLogic = (user, fetchTrigger) => {
             idMotorista: solicitacao.idMotorista || '',
             idSetor: solicitacao.idSetor || '',
             idCarro: solicitacao.idCarro || '',
-            destino: solicitacao.destino || '',
+            idDestino: solicitacao.idDestino || '',
             dataSolicitacao: solicitacao.dataSolicitacao || new Date().toISOString().split('T')[0],
             status: solicitacao.status || 'PENDENTE',
             horaSaida: solicitacao.horaSaida || '',
@@ -212,6 +221,7 @@ export const useSolicitacaoLogic = (user, fetchTrigger) => {
     notification,
     motoristas,
     setores,
+    destinos,
     carros,
 
     setSearchTerm,

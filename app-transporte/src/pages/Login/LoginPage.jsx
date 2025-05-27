@@ -15,8 +15,6 @@ import { FaUser, FaLock } from 'react-icons/fa';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import GerarSenhaProvisoriaModal from '../../components/Modals/GerarSenhaProvisoriaModal';
-import ConfirmarRedefinicaoSenhaModal from '../../components/Modals/ConfirmarRedefinicaoSenhaModal';
 
 const logoUrl =
   'https://www.saude.df.gov.br/documents/37101/0/Logo+SESDF+-+Vers%C3%A3o+Horizontal+v1+%282%29.png/349cd382-761d-c647-5199-0f77cff690e5?t=1727180366655';

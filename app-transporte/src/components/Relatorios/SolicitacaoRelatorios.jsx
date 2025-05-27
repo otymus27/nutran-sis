@@ -29,7 +29,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 const allColumns = [
-  { key: 'destino', label: 'Destino' },
+  { key: 'nomeDestino', label: 'Destino' },
   { key: 'status', label: 'Status' },
   { key: 'dataSolicitacao', label: 'Data da Solicitação' },
   { key: 'carro', label: 'Carro' },

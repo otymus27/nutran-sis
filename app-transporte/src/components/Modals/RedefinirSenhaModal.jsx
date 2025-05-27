@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -10,18 +10,20 @@ import {
   Alert,
   CircularProgress,
   Typography,
+  Stack,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 
 import { confirmarRedefinicao } from '../../services/UsuarioService.js';
+import { useNavigate } from 'react-router-dom';
 
 const schema = z
   .object({
     id: z.number({ invalid_type_error: 'ID deve ser um número' }).positive('ID deve ser positivo'),
     senhaProvisoria: z.string().min(1, 'Senha provisória é obrigatória'),
-    novaSenha: z.string().min(6, 'Nova senha deve ter no mínimo 6 caracteres'),
+    novaSenha: z.string().min(3, 'Nova senha deve ter no mínimo 3 caracteres'),
     confirmarSenha: z.string().min(1, 'Confirme a nova senha'),
   })
   .refine((data) => data.novaSenha === data.confirmarSenha, {
@@ -32,12 +34,14 @@ const schema = z
 const RedefinirSenhaModal = ({ open, onClose, userId, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' });
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm({
     resolver: zodResolver(schema),
     mode: 'onBlur',
@@ -48,6 +52,10 @@ const RedefinirSenhaModal = ({ open, onClose, userId, onSuccess }) => {
       confirmarSenha: '',
     },
   });
+
+  useEffect(() => {
+    setValue('id', userId || '');
+  }, [userId, setValue]);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -68,8 +76,6 @@ const RedefinirSenhaModal = ({ open, onClose, userId, onSuccess }) => {
       reset();
 
       if (onSuccess) onSuccess();
-
-      // ✅ Fecha automaticamente após sucesso
       if (onClose) onClose();
     } catch (error) {
       const msg = error?.response?.data?.mensagem || error?.message || 'Erro ao redefinir a senha. Tente novamente.';
@@ -83,9 +89,15 @@ const RedefinirSenhaModal = ({ open, onClose, userId, onSuccess }) => {
     setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
+  const handleCancel = () => {
+    reset();
+    if (onClose) onClose(); // ✅ Fechar o modal
+    navigate('/'); // ✅ Redirecionar para login
+  };
+
   return (
     <>
-      <Dialog open={open} onClose={onClose} disableEscapeKeyDown>
+      <Dialog open={open} onClose={handleCancel} disableEscapeKeyDown>
         <DialogTitle>Redefinir Senha</DialogTitle>
         <DialogContent>
           <Typography mb={2}>Por segurança, é necessário redefinir sua senha.</Typography>
@@ -130,10 +142,16 @@ const RedefinirSenhaModal = ({ open, onClose, userId, onSuccess }) => {
               helperText={errors.confirmarSenha?.message}
               disabled={loading}
             />
-            <DialogActions>
-              <Button type="submit" variant="contained" color="primary" disabled={loading} fullWidth>
-                {loading ? <CircularProgress size={24} color="inherit" /> : 'Redefinir Senha'}
-              </Button>
+
+            <DialogActions sx={{ justifyContent: 'center' }}>
+              <Stack direction="row" spacing={2}>
+                <Button onClick={handleCancel} variant="outlined" color="secondary" disabled={loading}>
+                  Cancelar
+                </Button>
+                <Button type="submit" variant="contained" color="primary" disabled={loading}>
+                  {loading ? <CircularProgress size={24} color="inherit" /> : 'Redefinir Senha'}
+                </Button>
+              </Stack>
             </DialogActions>
           </form>
         </DialogContent>

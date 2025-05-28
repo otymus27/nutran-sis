@@ -16,6 +16,7 @@ const AppRoutes = () => {
         <Route path="/" element={<HomePage />} />
         {/* Rota para redefinir senha */}
         <Route path="/redefinir-senha" element={<RedefinirSenhaPage />} />
+        <Route path="/sobre" element={<SobrePage />} />
         <Route path="/home" element={<PrivateRoute>{/* <Dashboard /> */}</PrivateRoute>} />
         <Route
           path="/carro"

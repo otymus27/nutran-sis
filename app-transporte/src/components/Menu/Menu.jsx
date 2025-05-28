@@ -9,6 +9,7 @@ import {
   Search,
   BarChart,
 } from '@mui/icons-material';
+import { Info } from 'lucide-react';
 
 export const menuStructure = [
   {
@@ -195,5 +196,12 @@ export const menuStructure = [
         allowedRoles: ['ADMIN'],
       },
     ],
+  },
+
+  {
+    text: 'Sobre',
+    path: '/sobre',
+    icon: <Assignment />,
+    allowedRoles: ['ADMIN', 'GERENTE', 'BASIC'], // todos visualizam o menu
   },
 ];

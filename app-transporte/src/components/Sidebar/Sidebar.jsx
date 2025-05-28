@@ -32,6 +32,7 @@ const Sidebar = () => {
 
   if (loading) return <Typography>Carregando...</Typography>;
   if (!user) return <Typography>Acesso negado</Typography>;
+
   const role = user?.roles?.[0]?.nome?.toUpperCase() || '';
 
   const handleToggleMenu = (key) => {
@@ -70,7 +71,25 @@ const Sidebar = () => {
             (child) => !child.allowedRoles || child.allowedRoles.map((r) => r.toUpperCase()).includes(role),
           );
 
-          if (filteredChildren.length === 0) return null;
+          const hasChildren = filteredChildren.length > 0;
+
+          if (!hasChildren && !menu.path) {
+            return (
+              <ListItemButton key={menu.key}>
+                <ListItemIcon>{menu.icon}</ListItemIcon>
+                <ListItemText primary={menu.text} />
+              </ListItemButton>
+            );
+          }
+
+          if (!hasChildren && menu.path) {
+            return (
+              <ListItemButton key={menu.key} onClick={() => handleNavigate(menu.path)}>
+                <ListItemIcon>{menu.icon}</ListItemIcon>
+                <ListItemText primary={menu.text} />
+              </ListItemButton>
+            );
+          }
 
           return (
             <React.Fragment key={menu.key}>

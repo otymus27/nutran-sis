@@ -37,3 +37,20 @@ FEATURES
 Feature-01: implementando a entidade para destino e o CRUD
 
 Feature-02: implementando a funcionanlidade de redefinição de senha
+
+# Configurações de portas, endereços e services para desenvolvimento:
+
+-   No front-end: na pasta services, alterar o arquivo api.js, só descomentar a linha de codigo abaixo:
+    //Usado para desenvolvimento
+    baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'
+
+-   No back-end: no método corsConfig dentro do arquivo SecurityConfigurations.java, descomentar a seguinte linha de código:
+    // Usado para só desenvolvimento
+    configuration.addAllowedOrigin("http://localhost:5173"); // ou http://localhost
+    configuration.addAllowedOrigin("http://localhost"); // ou http://localhost
+
+    No aplication.properties: descomentar a linha de código:
+
+    # URL para desenvolvimento e testes
+
+    spring.datasource.url=jdbc:mysql://localhost:3305/db_transporte?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC

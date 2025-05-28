@@ -10,6 +10,7 @@ import DestinoPage from './pages/Destino/DestinoPage.jsx';
 import UsuariosPage from './pages/Usuarios/UsuariosPage';
 import MotoristasPage from './pages/Motoristas/MotoristasPage';
 import SolicitacaoPage from './pages/Solicitacao/SolicitacaoPage.jsx';
+import SobrePage from './pages/Sobre/SobrePage.jsx';
 
 function App() {
   return (
@@ -80,6 +81,15 @@ function App() {
               element={
                 <PrivateRoute>
                   <SolicitacaoPage />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/sobre"
+              element={
+                <PrivateRoute>
+                  <SobrePage />
                 </PrivateRoute>
               }
             />

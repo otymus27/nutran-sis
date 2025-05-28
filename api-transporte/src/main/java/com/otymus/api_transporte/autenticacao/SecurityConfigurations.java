@@ -2,7 +2,6 @@ package com.otymus.api_transporte.autenticacao;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -67,9 +66,12 @@ public class SecurityConfigurations {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Permitir a origem do frontend (http://localhost)
+        // Usado para só desenvolvimento
         configuration.addAllowedOrigin("http://localhost:5173");  // ou http://localhost
         configuration.addAllowedOrigin("http://localhost");  // ou http://localhost
+        
+        
+        // Usado para produção
         configuration.addAllowedOrigin("http://localhost:85");  // ou http://localhost:80
         configuration.addAllowedOrigin("http://10.85.190.38:85"); // IP da sua máquina servidor
         configuration.addAllowedMethod("*"); // GET, POST, etc.

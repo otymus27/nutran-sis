@@ -36,7 +36,9 @@ FEATURES
 
 Feature-01: implementando a entidade para destino e o CRUD
 
-Feature-02: implementando a funcionanlidade de redefinição de senha
+Feature-02: implementando a funcionalidade de redefinição de senha
+
+Feature-03: implementando a funcionalidade de consultas personalizadas
 
 # Configurações de portas, endereços e services para desenvolvimento:
 

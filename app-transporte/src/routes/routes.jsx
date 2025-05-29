@@ -8,6 +8,7 @@ import MotoristasPage from './pages/Motoristas/MotoristasPage.jsx';
 import CarrosPage from '../pages/Carro/CarrosPage.jsx';
 import SolicitacaoPage from '../pages/Solicitacao/SolicitacaoPage.jsx';
 import RedefinirSenhaPage from '../pages/Login/RedefinirSenhaPage.jsx';
+import ConsultaSolicitacoesPage from '../pages/Solicitacao/ConsultaSolicitacaoPage.jsx';
 
 const AppRoutes = () => {
   return (
@@ -68,6 +69,15 @@ const AppRoutes = () => {
           element={
             <PrivateRoute allowedRoles={['ADMIN', 'GERENTE', 'BASIC']}>
               <SolicitacaoPage></SolicitacaoPage>
+            </PrivateRoute>
+          }
+        />
+
+        <Routes
+          path="/consulta"
+          element={
+            <PrivateRoute>
+              <ConsultaSolicitacoesPage></ConsultaSolicitacoesPage>
             </PrivateRoute>
           }
         />

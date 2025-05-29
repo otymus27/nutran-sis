@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import DescriptionIcon from '@mui/icons-material/Description';
 import {
   Button,
   Menu,
@@ -27,8 +28,8 @@ import {
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import useAuth from '../../hooks/useAuth';
 import { menuStructure } from '../Menu/Menu';
+import useAuth from '../../hooks/useAuth';
 
 const allColumns = [
   { key: 'nomeDestino', label: 'Destino' },
@@ -48,7 +49,6 @@ const allColumns = [
 const ConsultaSolicitacoesRelatorio = ({ solicitacoes, loading }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openConfigDialog, setOpenConfigDialog] = useState(false);
-
   const { user } = useAuth();
   // variaveis para uso do Menu
   const userRole = user?.roles?.[0]?.nome?.toUpperCase();
@@ -204,11 +204,20 @@ const ConsultaSolicitacoesRelatorio = ({ solicitacoes, loading }) => {
     handleCloseMenu();
   };
 
+  console.log('Log no arquivo useConsultaSolicitacao:', {
+    userRole,
+    isPrintDisabled,
+    loading,
+    solicitacoes,
+    solicitacoesLength: solicitacoes?.length,
+  });
+
   return (
     <>
       <Button
         variant="contained"
-        color="primary"
+        color="secondary"
+        startIcon={<DescriptionIcon />}
         onClick={handleOpenMenu}
         disabled={isPrintDisabled || loading || !solicitacoes || solicitacoes.length === 0}
         endIcon={<ConfigIcon />}

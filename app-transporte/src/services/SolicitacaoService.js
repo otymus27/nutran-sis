@@ -75,3 +75,33 @@ export const deleteSolicitacao = async (id) => {
     throw error;
   }
 };
+
+/**
+ * Consulta personalizada de solicitações com múltiplos filtros.
+ * @param {Object} filtros - Objeto contendo os filtros: motorista, placa, destino, setor, dataInicio, dataFim.
+ * @returns {Array} Lista de solicitações filtradas.
+ */
+export const consultarSolicitacoes = async (filtros, page = 0, size = 10) => {
+  try {
+    const params = {
+      motoristaId: filtros.motoristaId || null,
+      carroId: filtros.carroId || null,
+      destinoId: filtros.destinoId || null,
+      setorId: filtros.setorId || null,
+      dataInicio: filtros.dataInicio || null,
+      dataFim: filtros.dataFim || null,
+      page,
+      size,
+    };
+
+    console.log('Enviando filtros:', params); // ✅ LOG importante!
+
+    const response = await API.get(`${API_URL}/filtro`, { params });
+
+    console.log('Resposta da API:', response);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao consultar solicitações:', error);
+    throw error;
+  }
+};

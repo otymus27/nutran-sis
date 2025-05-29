@@ -173,8 +173,8 @@ export const menuStructure = [
     text: 'Solicitações',
     allowedRoles: ['ADMIN', 'GERENTE', 'BASIC'], // todos visualizam o menu
     permissions: {
-      disableDelete: ['GERENTE'],
-      disableEdit: ['BASIC'],
+      disableDelete: ['GERENTE', 'BASIC'],
+      disablePrint: ['BASIC'],
     },
     children: [
       {
@@ -185,7 +185,7 @@ export const menuStructure = [
       },
       {
         text: 'Consultar',
-        path: '/solicitacao/consultar',
+        path: '/consulta',
         icon: <Search />,
         allowedRoles: ['ADMIN'],
       },

@@ -11,6 +11,7 @@ import UsuariosPage from './pages/Usuarios/UsuariosPage';
 import MotoristasPage from './pages/Motoristas/MotoristasPage';
 import SolicitacaoPage from './pages/Solicitacao/SolicitacaoPage.jsx';
 import SobrePage from './pages/Sobre/SobrePage.jsx';
+import ConsultaSolicitacoesPage from './pages/Solicitacao/ConsultaSolicitacaoPage.jsx';
 
 function App() {
   return (
@@ -81,6 +82,15 @@ function App() {
               element={
                 <PrivateRoute>
                   <SolicitacaoPage />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/consulta"
+              element={
+                <PrivateRoute>
+                  <ConsultaSolicitacoesPage />
                 </PrivateRoute>
               }
             />

@@ -4,13 +4,15 @@ import com.otymus.api_transporte.entities.Motorista.Motorista;
 import com.otymus.api_transporte.entities.Solicitacao.Solicitacao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> {
+public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long>, JpaSpecificationExecutor {
     List<Solicitacao> findByStatus(String status);
 
    // List<Solicitacao> findByDestinoContaining(String nome);
@@ -20,4 +22,6 @@ public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> 
 
     // Faz busca das 5 ultimas solicitacoes
     List<Solicitacao> findTop5ByOrderByDataSolicitacaoDesc();
+
+    //Page<Solicitacao> findAll(Specification<Solicitacao> spec, Pageable pageable);
 }
